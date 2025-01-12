@@ -1,0 +1,20 @@
+[
+    {
+        "route": "evaluation",
+        "name": "Student Evaluations",
+        "icon": "fa-bolt",
+        "role": [
+            "admin",
+            "lecturer"
+        ]
+    },
+    {
+        "route": "activity_result",
+        "name": "Activity Results",
+        "icon": "fa-bolt",
+        "role": [
+            "admin",
+            "lecturer"
+        ]
+    }
+]
