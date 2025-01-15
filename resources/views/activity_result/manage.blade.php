@@ -78,7 +78,7 @@
             }],
             labels: {
                 placeholder: "Type to search...",
-                noRows: "There is no activity_result available."
+                noRows: "There is no activity result available."
             }
         });
         function deleteRecord(url) {

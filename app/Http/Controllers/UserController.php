@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class UserController extends Controller
 {
@@ -74,8 +75,41 @@ class UserController extends Controller
         if ($request->password != $request->confirm_password) {
             return redirect()->back()->with('error', 'New password and confirm password does not match. Please try again.');
         }
-        
+
         User::find(auth()->user()->id)->update($request->all());
         return redirect()->back()->with('success', 'Profile successfully updated!');
+    }
+
+    public function bulkUpload(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|mimes:xlsx,csv'
+        ]);
+
+        $data = Excel::toArray(null, $request->file('file'))[0];
+        if (empty($data) || count($data) < 2) {
+            return response()->json(['error' => 'The file is empty or invalid'], 400);
+        }
+
+        $columns = array_map('strtolower', $data[0]);
+        unset($data[0]);
+
+        foreach ($data as $row) {
+            $studentData = array_combine($columns, $row);
+
+            if (empty($studentData['name'])) {
+                continue;
+            }
+
+            User::create([
+                'name'        => $studentData['name'],
+                'email'       => $studentData['email'],
+                'password'    => 'password',
+                'matric_id'   => $studentData['matric_id'],
+                'role'        => 'student'
+            ]);
+        }
+
+        return response()->json(['message' => 'Bulk upload successful']);
     }
 }

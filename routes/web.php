@@ -85,7 +85,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/exercise-voice', [ExerciseController::class, 'showVoiceExercise'])->name('exercise.voice');
 
     //quiz
-    Route::get('exercise/evaluation', [QuizController::class, 'showQuiz'])->name('exercise.evaluation');
+    Route::get('evaluation/show-quiz', [QuizController::class, 'showQuiz'])->name('evaluation.show-quiz');
 
     //body parts
     Route::get('lesson/bodyParts', [BodyPartsController::class, 'index'])->name('lesson.bodyParts');
@@ -98,6 +98,8 @@ Route::group(['middleware' => 'auth'], function () {
 
     //lesson
     Route::get('lesson/lesson1', [GreetingsController::class, 'showLesson'])->name('lesson.lesson1');
+
+    Route::post('/user/bulk-upload', [UserController::class, 'bulkUpload'])->name('user.bulk-upload');
 
     Route::resource('user', UserController::class);
 

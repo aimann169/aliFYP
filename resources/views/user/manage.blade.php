@@ -13,8 +13,14 @@
                 <div class="card mb-4">
                     <div class="card-header d-flex justify-content-between mb-3">
                         <h6>Manage Users</h6>
-                        <a href="{{ route('user.create') }}" class="btn btn-primary btn-sm float-end mb-0">Add
-                            User</a>
+                        <div>
+                            <a href="{{ route('user.create') }}" class="btn btn-primary btn-sm float-end mb-0">Add
+                                User</a>
+                            @if (auth()->user()->role == 'lecturer')
+                                <button type="button" class="btn btn-secondary btn-sm float-end mb-0 me-2"
+                                    data-bs-toggle="modal" data-bs-target="#modal-form">Bulk Upload</button>
+                            @endif
+                        </div>
                     </div>
                     <div class="card-body px-0 pt-0 pb-2">
                         <div class="table-responsive p-0">
@@ -26,6 +32,11 @@
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             Name
                                         </th>
+                                        @if (auth()->user()->role == 'lecturer')
+                                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                                Matric ID
+                                            </th>
+                                        @endif
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             Email
                                         </th>
@@ -50,6 +61,12 @@
                                                     <p class="text-sm font-weight-bold mb-0">
                                                         {{ $data['name'] }}</p>
                                                 </td>
+                                                @if (auth()->user()->role == 'lecturer')
+                                                    <td>
+                                                        <p class="text-sm font-weight-bold mb-0">
+                                                            {{ $data['matric_id'] }}</p>
+                                                    </td>
+                                                @endif
                                                 <td>
                                                     <p class="text-sm font-weight-bold mb-0">
                                                         {{ $data['email'] }}</p>
@@ -90,6 +107,36 @@
                 </div>
             </div>
         </div>
+        <div class="modal fade" id="modal-form" tabindex="-1" role="dialog" aria-labelledby="modal-form"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-md" role="document">
+                <div class="modal-content">
+                    <div class="modal-body p-0">
+                        <div class="card card-plain">
+                            <div class="card-header pb-0 text-left">
+                                <h3 class="font-weight-bolder text-info">Bulk Upload</h3>
+                                <p class="mb-0">Upload a CSV file to add multiple students.</p>
+                            </div>
+                            <div class="card-body">
+                                <form role="form text-left" id="bulkUploadForm" method="POST"
+                                    enctype="multipart/form-data">
+                                    @csrf
+                                    <label>CSV File</label>
+                                    <div class="input-group mb-3">
+                                        <input type="file" name="file" class="form-control" placeholder="CSV File"
+                                            aria-label="CSV File" aria-describedby="csv-file-addon">
+                                    </div>
+                                    <div class="text-center">
+                                        <button type="submit"
+                                            class="btn btn-round bg-gradient-info btn-lg w-100 mt-4 mb-0">Upload</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         @include('layouts.footers.auth.footer')
     </div>
 @endsection
@@ -102,10 +149,12 @@
             perPage: 10,
             searchable: true,
             fixedHeight: true,
-            columns: [{
-                select: 4, //column-index
-                sortable: false
-            }],
+            columns: [
+                {
+                    select: {{ auth()->user()->role == 'lecturer' ? 5 : 4 }}, //column-index
+                    sortable: false
+                }
+            ],
             labels: {
                 placeholder: "Type to search...",
                 noRows: "There is no user available."
@@ -158,5 +207,38 @@
                 }
             })
         }
+
+        $(document).ready(function() {
+            $('#bulkUploadForm').on('submit', function(e) {
+                e.preventDefault();
+
+                let formData = new FormData(this);
+
+                $.ajax({
+                    url: '{{ route('user.bulk-upload') }}',
+                    type: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(response) {
+                        Swal.fire(
+                            'Success!',
+                            'The student details have been bulk uploaded.',
+                            'success'
+                        )
+                        setTimeout(() => {
+                            location.reload();
+                        }, 2000);
+                    },
+                    error: function(xhr) {
+                        Swal.fire(
+                            'Error!',
+                            'An error occurred during the upload.',
+                            'error'
+                        )
+                    }
+                });
+            });
+        });
     </script>
 @endpush

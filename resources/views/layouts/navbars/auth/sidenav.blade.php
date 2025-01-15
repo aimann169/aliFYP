@@ -55,8 +55,8 @@
             </li>
             @if (auth()->user()->role == 'student')
                 <li class="nav-item">
-                    <a class="nav-link {{ str_contains(Route::currentRouteName(), 'exercise.evaluation') ? 'active' : '' }}"
-                        href="{{ route('exercise.evaluation') }}">
+                    <a class="nav-link {{ str_contains(Route::currentRouteName(), 'evaluation.show-quiz') ? 'active' : '' }}"
+                        href="{{ route('evaluation.show-quiz') }}">
                         <div
                             class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                             <i class="fa fa-book text-primary text-sm opacity-10 pb-1"></i>
@@ -67,53 +67,62 @@
             @endif
             <!-- Lesson Section -->
             <li class="nav-item">
-                <a data-bs-toggle="collapse" href="#lesson" class="nav-link collapsed" aria-controls="lesson"
-                    role="button" aria-expanded="false">
+                <a data-bs-toggle="collapse" href="#lesson"
+                    class="nav-link {{ str_contains(Route::currentRouteName(), 'lesson') ? 'active' : 'collapsed' }}"
+                    aria-controls="lesson" role="button" aria-expanded="false">
                     <div class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
                         <i class="ni ni-ungroup text-dark text-sm opacity-10"></i>
                     </div>
                     <span class="nav-link-text ms-1">Lesson</span>
                 </a>
-                <div class="collapse" id="lesson">
+                <div class="collapse {{ str_contains(Route::currentRouteName(), 'lesson') ? 'show' : '' }}"
+                    id="lesson">
                     <ul class="nav ms-4">
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('lesson.alphabet') }}">
+                            <a class="nav-link {{ str_contains(Route::currentRouteName(), 'lesson.alphabet') ? 'active' : '' }}"
+                                href="{{ route('lesson.alphabet') }}">
                                 <span class="sidenav-mini-icon"> A </span>
                                 <span class="sidenav-normal"> Alphabet & Numbers </span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('lesson.color') }}">
+                            <a class="nav-link {{ str_contains(Route::currentRouteName(), 'lesson.color') ? 'active' : '' }}"
+                                href="{{ route('lesson.color') }}">
                                 <span class="sidenav-mini-icon"> C </span>
                                 <span class="sidenav-normal"> Color </span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('lesson.lesson1') }}">
+                            <a class="nav-link {{ str_contains(Route::currentRouteName(), 'lesson.lesson1') ? 'active' : '' }}"
+                                href="{{ route('lesson.lesson1') }}">
                                 <span class="sidenav-mini-icon"> P </span>
                                 <span class="sidenav-normal"> Basic Phrases & Greetings </span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('lesson.bodyParts') }}">
+                            <a class="nav-link {{ str_contains(Route::currentRouteName(), 'lesson.bodyParts') ? 'active' : '' }}"
+                                href="{{ route('lesson.bodyParts') }}">
                                 <span class="sidenav-mini-icon"> B </span>
                                 <span class="sidenav-normal"> Body Parts </span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('lesson.family') }}">
+                            <a class="nav-link {{ str_contains(Route::currentRouteName(), 'lesson.family') ? 'active' : '' }}"
+                                href="{{ route('lesson.family') }}">
                                 <span class="sidenav-mini-icon"> F </span>
                                 <span class="sidenav-normal"> Family </span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('lesson.months') }}">
+                            <a class="nav-link {{ str_contains(Route::currentRouteName(), 'lesson.months') ? 'active' : '' }}"
+                                href="{{ route('lesson.months') }}">
                                 <span class="sidenav-mini-icon"> M </span>
                                 <span class="sidenav-normal"> Months </span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('lesson.occupation') }}">
+                            <a class="nav-link {{ str_contains(Route::currentRouteName(), 'lesson.occupation') ? 'active' : '' }}"
+                                href="{{ route('lesson.occupation') }}">
                                 <span class="sidenav-mini-icon"> O </span>
                                 <span class="sidenav-normal"> Occupation </span>
                             </a>
@@ -124,35 +133,41 @@
 
             <!-- Exercise Section -->
             <li class="nav-item">
-                <a data-bs-toggle="collapse" href="#exercise" class="nav-link collapsed" aria-controls="exercise"
-                    role="button" aria-expanded="false">
+                <a data-bs-toggle="collapse" href="#exercise"
+                    class="nav-link {{ str_contains(Route::currentRouteName(), 'exercise') ? 'active' : 'collapsed' }}"
+                    aria-controls="exercise" role="button" aria-expanded="false">
                     <div class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
                         <i class="ni ni-ungroup text-dark text-sm opacity-10"></i>
                     </div>
                     <span class="nav-link-text ms-1">Exercise</span>
                 </a>
-                <div class="collapse" id="exercise">
+                <div class="collapse {{ str_contains(Route::currentRouteName(), 'exercise') ? 'show' : '' }}"
+                    id="exercise">
                     <ul class="nav ms-4">
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('exercise.sorting') }}">
+                            <a class="nav-link {{ str_contains(Route::currentRouteName(), 'exercise.sorting') ? 'active' : '' }}"
+                                href="{{ route('exercise.sorting') }}">
                                 <span class="sidenav-mini-icon"> S </span>
                                 <span class="sidenav-normal"> Alphabet & Numbers </span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('exercise.exercise') }}">
+                            <a class="nav-link {{ str_contains(Route::currentRouteName(), 'exercise.exercise') ? 'active' : '' }}"
+                                href="{{ route('exercise.exercise') }}">
                                 <span class="sidenav-mini-icon"> B </span>
                                 <span class="sidenav-normal"> Basic Phrases & Greetings </span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('exercise.memory') }}">
+                            <a class="nav-link {{ str_contains(Route::currentRouteName(), 'exercise.memory') ? 'active' : '' }}"
+                                href="{{ route('exercise.memory') }}">
                                 <span class="sidenav-mini-icon"> M </span>
                                 <span class="sidenav-normal"> Body Parts </span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('exercise.voice') }}">
+                            <a class="nav-link {{ str_contains(Route::currentRouteName(), 'exercise.voice') ? 'active' : '' }}"
+                                href="{{ route('exercise.voice') }}">
                                 <span class="sidenav-mini-icon"> V </span>
                                 <span class="sidenav-normal"> Speaking </span>
                             </a>
